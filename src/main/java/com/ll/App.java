@@ -7,6 +7,8 @@ class App {
     void run() {
         System.out.println("==명언 앱==");
 
+        int lastQuotationId = 0; // 명언 번호
+
         while (true) { // 반복문, 참이면 실행
             System.out.print("명령 ) ");
 
@@ -18,13 +20,16 @@ class App {
                 break; // 나를 감싼 반복문 종료
 //                continue; // 한턴만 쉰다.
             } else if (cmd.equals("등록")) {
+
                 System.out.print("명언 : ");
                 String  content = scanner.nextLine(); // 멈추고 입력받는다.
 
                 System.out.print("작가 : ");
                 String authorName = scanner.nextLine();
 
-                System.out.println("1번 명언이 등록되었습니다.");
+                lastQuotationId++;
+
+                System.out.printf("%d번 명언이 등록되었습니다.\n", lastQuotationId);
             }
         }
     }
