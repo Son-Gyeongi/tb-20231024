@@ -29,6 +29,9 @@ class App {
 
                 lastQuotationId++;
 
+                // Qutotation 생성자로 초기화하고 객체 만들기
+                Quotation quotation = new Quotation(lastQuotationId, content, authorName);
+
                 System.out.printf("%d번 명언이 등록되었습니다.\n", lastQuotationId);
             }
         }
