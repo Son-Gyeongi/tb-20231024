@@ -25,6 +25,12 @@ class App {
 
             String cmd = scanner.nextLine(); // 고객이 입력하고 엔터 누를 때까지 정지
 
+            // 장기기억으로 만들려면 객체를 사용
+            Rq rq = new Rq(cmd);
+
+            System.out.println("rq.getAction : " + rq.getAction());
+            System.out.println("rq.getParamAsInt : " + rq.getParamAsInt("id", 0)); // id의 값을 찾고 없으면 0을 반환한다.
+
             if (cmd.equals("종료")) { // 문장 비교는 equals()
                 break; // 나를 감싼 반복문 종료
 //                continue; // 한턴만 쉰다.
