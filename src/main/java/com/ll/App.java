@@ -33,9 +33,10 @@ class App {
                 String authorName = scanner.nextLine();
 
                 lastQuotationId++;
+                int id = lastQuotationId; // 가독성 때문에 만들었다.
 
                 // Qutotation 생성자로 초기화하고 객체 만들기
-                Quotation quotation = new Quotation(lastQuotationId, content, authorName);
+                Quotation quotation = new Quotation(id, content, authorName);
                 quotations.add(quotation);
 
                 System.out.printf("%d번 명언이 등록되었습니다.\n", lastQuotationId);
