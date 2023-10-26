@@ -18,8 +18,13 @@ class App {
                 break; // 나를 감싼 반복문 종료
 //                continue; // 한턴만 쉰다.
             } else if (cmd.equals("등록")) {
-                System.out.println("명언 : ");
-                System.out.println("작가 : ");
+                System.out.print("명언 : ");
+                String  content = scanner.nextLine(); // 멈추고 입력받는다.
+
+                System.out.print("작가 : ");
+                String authorName = scanner.nextLine();
+
+                System.out.printf("명언 : %s, 작가 : %s\n", content, authorName);
             }
         }
     }
