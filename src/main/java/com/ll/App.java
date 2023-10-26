@@ -17,11 +17,10 @@ class App {
             if (cmd.equals("종료")) { // 문장 비교는 equals()
                 break; // 나를 감싼 반복문 종료
 //                continue; // 한턴만 쉰다.
+            } else if (cmd.equals("등록")) {
+                System.out.println("명언 : ");
+                System.out.println("작가 : ");
             }
-
-            System.out.printf("입력하신 명령어 : %s\n", cmd);
-            // 위 라인은 아래 라인과 같은 뜻
-//        System.out.println("입력하신 명령어 : "+cmd+"\n");
         }
     }
 }
