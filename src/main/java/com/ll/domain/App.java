@@ -112,6 +112,10 @@ public class App {
         System.out.printf("%d번 명언이 삭제되었습니다.\n", id);
     }
 
+    /*
+    dry 뜻 - 중복 제거
+    don't repeat yourself
+     */
     private Quotation write(String content, String authorName) {
         lastQuotationId++;
         int id = lastQuotationId; // 가독성 때문에 만들었다.
