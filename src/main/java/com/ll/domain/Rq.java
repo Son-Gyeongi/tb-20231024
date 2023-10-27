@@ -1,6 +1,7 @@
 package com.ll.domain;
 
 import com.ll.standard.util.Ut;
+import lombok.Getter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,6 +14,7 @@ public class Rq {
     // 장기기억으로 만들려면 객체를 사용
 
     private String cmd;
+    @Getter
     private String action;
     private String queryString;
 
@@ -45,10 +47,6 @@ public class Rq {
 
             paramsMap.put(paramName, paramValue);
         }
-    }
-
-    public String getAction() {
-        return action;
     }
 
     public int getParamAsInt(String paramName, int defaultValue) {
