@@ -24,6 +24,12 @@ public class Rq {
         // cmd 나누가 / Bits 조각이라는 뜻
         String[] cmdBits = cmd.split("\\?", 2);
         action = cmdBits[0].trim();
+
+        if (cmdBits.length == 1) { // 등록, 수정 만 있다면
+            return;
+            // ?가 없으니 이후로 작업하지 않겠다.
+        }
+
         queryString = cmdBits[1].trim();
 
         String[] queryStringBits = queryString.split("&");

@@ -87,7 +87,7 @@ class App {
         int id = rq.getParamAsInt("id", 0);
 
         if (id == 0) {
-            System.out.println("id를 입력해주세요.");
+            System.out.println("id를 정확히 입력해주세요.");
             return; // 함수를 끝낸다.
         }
 
