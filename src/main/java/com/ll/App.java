@@ -26,22 +26,27 @@ class App {
             String cmd = scanner.nextLine(); // 고객이 입력하고 엔터 누를 때까지 정지
 
             // 장기기억으로 만들려면 객체를 사용
+            // 요청에 대한 책임을 떠안느다.
             Rq rq = new Rq(cmd);
+            // Rq를 만들어서 더이상 cmd를 잡고 씨름할 필요없다.
+            // cmd에 대한 처리는 모두 rq에 맡겼다. -> if문에서 switch문으로 바꿀 수 있다.
 
-            System.out.println("rq.getAction : " + rq.getAction());
-            System.out.println("rq.getParamAsInt : " + rq.getParamAsInt("id", 0)); // id의 값을 찾고 없으면 0을 반환한다.
-
-            if (cmd.equals("종료")) { // 문장 비교는 equals()
-                break; // 나를 감싼 반복문 종료
-//                continue; // 한턴만 쉰다.
-            } else if (cmd.equals("등록")) {
-                actionWrite();
-            } else if (cmd.equals("목록")) {
-                actionList();
-            } else if (cmd.startsWith("삭제?")) {
-                actionRemove(cmd);
-            } else if (cmd.startsWith("수정?")) {
-                actionModify(cmd);
+            switch (rq.getAction()) {
+                case "종료" :
+//                    break; // switch를 끝내는 구문
+                    return; // run 함수가 끝난다.
+                case "등록" :
+                    actionWrite();
+                    break;
+                case "목록" :
+                    actionList();
+                    break;
+                case "삭제" :
+                    actionRemove(rq);
+                    break;
+                case "수정" :
+                    actionModify(rq);
+                    break;
             }
         }
     }
@@ -77,9 +82,9 @@ class App {
         }
     }
 
-    void actionRemove(String cmd) {
+    void actionRemove(Rq rq) {
         // 내가 몇번 삭제하면 돼?
-        int id = getParamAsInt(cmd, "id", 0);
+        int id = rq.getParamAsInt("id", 0);
 
         if (id == 0) {
             System.out.println("id를 입력해주세요.");
@@ -89,8 +94,8 @@ class App {
         System.out.printf("%d번 명언이 삭제되었습니다.\n", id);
     }
 
-    void actionModify(String cmd) {
-        int id = getParamAsInt(cmd, "id", 0);
+    void actionModify(Rq rq) {
+        int id = rq.getParamAsInt("id", 0);
 
         if (id == 0) {
             System.out.println("id를 정확히 입력해주세요.");
@@ -98,37 +103,5 @@ class App {
         }
 
         System.out.printf("%d번 명언이 수정되었습니다.\n", id);
-    }
-
-    int getParamAsInt(String cmd, String paramName, int defaultValue) {
-        // Bits 조각이라는 뜻
-        String[] cmdBits = cmd.split("\\?", 2);
-        String queryString = cmdBits[1];
-
-        String[] queryStringBits = queryString.split("&");
-
-        int id = 0;
-
-        for (int i = 0; i < queryStringBits.length; i++) {
-            String queryParamStr = queryStringBits[i];
-
-            String[] queryParamStrBits = queryParamStr.split("=", 2);
-
-            String _paramName = queryParamStrBits[0];
-            String paramValue = queryParamStrBits[1];
-
-            if (_paramName.equals(paramName)) {
-                // 실패 대비
-                try {
-                    // 문제가 없을 경우
-                    return Integer.parseInt(paramValue);
-                } catch (NumberFormatException e) {
-                    // 문제가 생긴 경우
-                    return defaultValue;
-                }
-            }
-        }
-
-        return defaultValue;
     }
 }
