@@ -1,4 +1,6 @@
-package com.ll;
+package com.ll.domain;
+
+import com.ll.standard.util.Ut;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,11 +12,11 @@ Rq 안에 내용 못 짜도 상관없다.
 public class Rq {
     // 장기기억으로 만들려면 객체를 사용
 
-    String cmd;
-    String action;
-    String queryString;
+    private String cmd;
+    private String action;
+    private String queryString;
 
-    Map<String, String> paramsMap;
+    private Map<String, String> paramsMap;
 
     public Rq(String cmd) {
         paramsMap = new HashMap<>();
@@ -45,21 +47,12 @@ public class Rq {
         }
     }
 
-    String getAction() {
+    public String getAction() {
         return action;
     }
 
     public int getParamAsInt(String paramName, int defaultValue) {
-        String paramValue = paramsMap.get(paramName);
-
-        // 값이 있는 경우
-        if (paramValue != null) {
-            try {
-                return Integer.parseInt(paramValue);
-            } catch (NumberFormatException e) {
-            }
-        }
-
-        return defaultValue;
+        // 수정?id=5, paramsMap.get(paramName)에 문자열 "5"가 들어온다.
+        return Ut.str.parseInt(paramsMap.get(paramName), defaultValue);
     }
 }

@@ -1,23 +1,24 @@
-package com.ll;
+package com.ll.domain;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 //프로그램 중심
-class App {
-    Scanner scanner; // 표준  입력, 키보드
-    int lastQuotationId; // 명언 번호
+// 외부에서 new App() 생성자 호출해야해서 App클래스는 public이다. 그리고 생성자도 public 붙여준다.
+public class App {
+    private Scanner scanner; // 표준  입력, 키보드
+    private int lastQuotationId; // 명언 번호
     //     Quotation[] quotations = new Quotation[100]; // 명언 리모컨을 100개 담을 수 있는 배열 객체 1개, 고정크기
-    List<Quotation> quotations; // 가변크기 리스트
+    private List<Quotation> quotations; // 가변크기 리스트
 
-    App() {
+    public App() {
         scanner = new Scanner(System.in); // 표준  입력, 키보드
         lastQuotationId = 0; // 명언 번호
         quotations = new ArrayList<>(); // 가변크기 리스트
     }
 
-    void run() {
+    public void run() {
         System.out.println("==명언 앱==");
 
         while (true) { // 반복문, 참이면 실행
@@ -32,26 +33,27 @@ class App {
             // cmd에 대한 처리는 모두 rq에 맡겼다. -> if문에서 switch문으로 바꿀 수 있다.
 
             switch (rq.getAction()) {
-                case "종료" :
+                case "종료":
 //                    break; // switch를 끝내는 구문
                     return; // run 함수가 끝난다.
-                case "등록" :
+                case "등록":
                     actionWrite();
                     break;
-                case "목록" :
+                case "목록":
                     actionList();
                     break;
-                case "삭제" :
+                case "삭제":
                     actionRemove(rq);
                     break;
-                case "수정" :
+                case "수정":
                     actionModify(rq);
                     break;
             }
         }
     }
 
-    void actionWrite() {
+    // action 관련 메서드들 모두 해당 클래스 내에서만 사용한다. 그래서 private이다.
+    private void actionWrite() {
         System.out.print("명언 : ");
         String content = scanner.nextLine(); // 멈추고 입력받는다.
 
@@ -68,7 +70,7 @@ class App {
         System.out.printf("%d번 명언이 등록되었습니다.\n", lastQuotationId);
     }
 
-    void actionList() {
+    private void actionList() {
         System.out.println("번호 / 작가 / 명언");
         System.out.println("----------------------");
 
@@ -82,7 +84,7 @@ class App {
         }
     }
 
-    void actionRemove(Rq rq) {
+    private void actionRemove(Rq rq) {
         // 내가 몇번 삭제하면 돼?
         int id = rq.getParamAsInt("id", 0);
 
@@ -92,7 +94,7 @@ class App {
         }
 
         // 우리가 제거할 리모콘이 몇 번째인지 알아야 한다.
-        int index = getIndexOfQuotationById(id);
+        int index = findQuotationIndexById(id);
 
         if (index == -1) {
             System.out.printf("%d번 명언은 존재하지 않습니다.\n", id);
@@ -104,7 +106,7 @@ class App {
         System.out.printf("%d번 명언이 삭제되었습니다.\n", id);
     }
 
-    int getIndexOfQuotationById(int id) {
+    private int findQuotationIndexById(int id) {
         for (int i = 0; i < quotations.size(); i++) {
             Quotation quotation = quotations.get(i);
 
@@ -115,7 +117,7 @@ class App {
         return -1;
     }
 
-    void actionModify(Rq rq) {
+    private void actionModify(Rq rq) {
         int id = rq.getParamAsInt("id", 0);
 
         if (id == 0) {
