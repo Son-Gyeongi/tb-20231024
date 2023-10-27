@@ -91,7 +91,28 @@ class App {
             return; // 함수를 끝낸다.
         }
 
+        // 우리가 제거할 리모콘이 몇 번째인지 알아야 한다.
+        int index = getIndexOfQuotationById(id);
+
+        if (index == -1) {
+            System.out.printf("%d번 명언은 존재하지 않습니다.\n", id);
+            return;
+        }
+
+        quotations.remove(index);
+
         System.out.printf("%d번 명언이 삭제되었습니다.\n", id);
+    }
+
+    int getIndexOfQuotationById(int id) {
+        for (int i = 0; i < quotations.size(); i++) {
+            Quotation quotation = quotations.get(i);
+
+            if (quotation.id == id) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     void actionModify(Rq rq) {
