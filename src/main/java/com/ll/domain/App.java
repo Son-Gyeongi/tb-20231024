@@ -125,6 +125,28 @@ public class App {
             return; // 함수를 끝낸다.
         }
 
+        // 우리가 수정할 리모콘이 몇 번째인지 알아야 한다.
+        int index = findQuotationIndexById(id);
+
+        if (index == -1) {
+            System.out.printf("%d번 명언은 존재하지 않습니다.\n", id);
+            return;
+        }
+
+        Quotation quotation = quotations.get(index);
+
+        System.out.printf("명언(기존) : %s\n", quotation.content);
+        System.out.print("명언 : ");
+        String content = scanner.nextLine(); // 멈추고 입력받는다.
+
+        System.out.printf("작가(기존) : %s\n", quotation.authorName);
+        System.out.print("작가 : ");
+        String authorName = scanner.nextLine();
+
+        // 객체를 새로 만들 필요없이 기존에 있던 것을 새로 입력 받은 걸로 교체해주면 된다.
+        quotation.content = content;
+        quotation.authorName = authorName;
+
         System.out.printf("%d번 명언이 수정되었습니다.\n", id);
     }
 }
