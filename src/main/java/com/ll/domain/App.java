@@ -21,15 +21,10 @@ public class App {
         initTestData();
     }
 
-    void initTestData() {
+    // 테스트 데이터 만들기
+    void initTestData() { // 테스트를 위해서 만들었다. 실제 배포할 때는 빼야한다.
         for (int i = 0; i < 10; i++) {
-            lastQuotationId++;
-            int id = lastQuotationId;
-            String content = "명언" + id;
-            String authorName = "작가" + id;
-
-            Quotation quotation = new Quotation(id, content, authorName);
-            quotations.add(quotation);
+            write("명언 " + i, "작가 " + i);
         }
     }
 
@@ -75,14 +70,10 @@ public class App {
         System.out.print("작가 : ");
         String authorName = scanner.nextLine();
 
-        lastQuotationId++;
-        int id = lastQuotationId; // 가독성 때문에 만들었다.
+        // 객체 생성
+        Quotation quotation = write(content, authorName);
 
-        // Qutotation 생성자로 초기화하고 객체 만들기
-        Quotation quotation = new Quotation(id, content, authorName);
-        quotations.add(quotation);
-
-        System.out.printf("%d번 명언이 등록되었습니다.\n", lastQuotationId);
+        System.out.printf("%d번 명언이 등록되었습니다.\n", quotation.getId());
     }
 
     private void actionList() {
@@ -119,6 +110,17 @@ public class App {
         quotations.remove(index);
 
         System.out.printf("%d번 명언이 삭제되었습니다.\n", id);
+    }
+
+    private Quotation write(String content, String authorName) {
+        lastQuotationId++;
+        int id = lastQuotationId; // 가독성 때문에 만들었다.
+
+        // Qutotation 생성자로 초기화하고 객체 만들기
+        Quotation quotation = new Quotation(id, content, authorName);
+        quotations.add(quotation);
+
+        return quotation;
     }
 
     private int findQuotationIndexById(int id) {
