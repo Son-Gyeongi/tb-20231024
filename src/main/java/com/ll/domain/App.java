@@ -16,6 +16,21 @@ public class App {
         scanner = new Scanner(System.in); // 표준  입력, 키보드
         lastQuotationId = 0; // 명언 번호
         quotations = new ArrayList<>(); // 가변크기 리스트
+
+        // 앱이 시작되자마자 자동으로 데이터 들어간다.
+        initTestData();
+    }
+
+    void initTestData() {
+        for (int i = 0; i < 10; i++) {
+            lastQuotationId++;
+            int id = lastQuotationId;
+            String content = "명언" + id;
+            String authorName = "작가" + id;
+
+            Quotation quotation = new Quotation(id, content, authorName);
+            quotations.add(quotation);
+        }
     }
 
     public void run() {
