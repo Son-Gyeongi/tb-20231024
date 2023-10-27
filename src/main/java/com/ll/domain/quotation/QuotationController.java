@@ -1,19 +1,19 @@
-package com.ll.domain;
+package com.ll.domain.quotation;
+
+import com.ll.base.Rq;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-//프로그램 중심
-// 외부에서 new App() 생성자 호출해야해서 App클래스는 public이다. 그리고 생성자도 public 붙여준다.
-public class App {
-    private Scanner scanner; // 표준  입력, 키보드
+public class QuotationController {
+    private Scanner scanner;
     private int lastQuotationId; // 명언 번호
     //     Quotation[] quotations = new Quotation[100]; // 명언 리모컨을 100개 담을 수 있는 배열 객체 1개, 고정크기
     private List<Quotation> quotations; // 가변크기 리스트
 
-    public App() {
-        scanner = new Scanner(System.in); // 표준  입력, 키보드
+    public QuotationController(Scanner scanner) {
+        this.scanner = scanner;
         lastQuotationId = 0; // 명언 번호
         quotations = new ArrayList<>(); // 가변크기 리스트
 
@@ -21,49 +21,16 @@ public class App {
         initTestData();
     }
 
+
     // 테스트 데이터 만들기
-    void initTestData() { // 테스트를 위해서 만들었다. 실제 배포할 때는 빼야한다.
+    private void initTestData() { // 테스트를 위해서 만들었다. 실제 배포할 때는 빼야한다.
         for (int i = 0; i < 10; i++) {
             write("명언 " + i, "작가 " + i);
         }
     }
 
-    public void run() {
-        System.out.println("==명언 앱==");
-
-        while (true) { // 반복문, 참이면 실행
-            System.out.print("명령 ) ");
-
-            String cmd = scanner.nextLine(); // 고객이 입력하고 엔터 누를 때까지 정지
-
-            // 장기기억으로 만들려면 객체를 사용
-            // 요청에 대한 책임을 떠안느다.
-            Rq rq = new Rq(cmd);
-            // Rq를 만들어서 더이상 cmd를 잡고 씨름할 필요없다.
-            // cmd에 대한 처리는 모두 rq에 맡겼다. -> if문에서 switch문으로 바꿀 수 있다.
-
-            switch (rq.getAction()) {
-                case "종료":
-//                    break; // switch를 끝내는 구문
-                    return; // run 함수가 끝난다.
-                case "등록":
-                    actionWrite();
-                    break;
-                case "목록":
-                    actionList();
-                    break;
-                case "삭제":
-                    actionRemove(rq);
-                    break;
-                case "수정":
-                    actionModify(rq);
-                    break;
-            }
-        }
-    }
-
     // action 관련 메서드들 모두 해당 클래스 내에서만 사용한다. 그래서 private이다.
-    private void actionWrite() {
+    public void actionWrite() {
         System.out.print("명언 : ");
         String content = scanner.nextLine(); // 멈추고 입력받는다.
 
@@ -76,7 +43,7 @@ public class App {
         System.out.printf("%d번 명언이 등록되었습니다.\n", quotation.getId());
     }
 
-    private void actionList() {
+    public void actionList() {
         System.out.println("번호 / 작가 / 명언");
         System.out.println("----------------------");
 
@@ -90,7 +57,7 @@ public class App {
         }
     }
 
-    private void actionRemove(Rq rq) {
+    public void actionRemove(Rq rq) {
         // 내가 몇번 삭제하면 돼?
         int id = rq.getParamAsInt("id", 0);
 
@@ -112,33 +79,7 @@ public class App {
         System.out.printf("%d번 명언이 삭제되었습니다.\n", id);
     }
 
-    /*
-    dry 뜻 - 중복 제거
-    don't repeat yourself
-     */
-    private Quotation write(String content, String authorName) {
-        lastQuotationId++;
-        int id = lastQuotationId; // 가독성 때문에 만들었다.
-
-        // Qutotation 생성자로 초기화하고 객체 만들기
-        Quotation quotation = new Quotation(id, content, authorName);
-        quotations.add(quotation);
-
-        return quotation;
-    }
-
-    private int findQuotationIndexById(int id) {
-        for (int i = 0; i < quotations.size(); i++) {
-            Quotation quotation = quotations.get(i);
-
-            if (quotation.getId() == id) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    private void actionModify(Rq rq) {
+    public void actionModify(Rq rq) {
         int id = rq.getParamAsInt("id", 0);
 
         if (id == 0) {
@@ -169,5 +110,32 @@ public class App {
         quotation.setAuthorName(content);
 
         System.out.printf("%d번 명언이 수정되었습니다.\n", id);
+    }
+
+    /*
+    dry 뜻 - 중복 제거
+    don't repeat yourself
+     */
+    // 객체 생성
+    public Quotation write(String content, String authorName) {
+        lastQuotationId++;
+        int id = lastQuotationId; // 가독성 때문에 만들었다.
+
+        // Qutotation 생성자로 초기화하고 객체 만들기
+        Quotation quotation = new Quotation(id, content, authorName);
+        quotations.add(quotation);
+
+        return quotation;
+    }
+
+    private int findQuotationIndexById(int id) {
+        for (int i = 0; i < quotations.size(); i++) {
+            Quotation quotation = quotations.get(i);
+
+            if (quotation.getId() == id) {
+                return i;
+            }
+        }
+        return -1;
     }
 }
