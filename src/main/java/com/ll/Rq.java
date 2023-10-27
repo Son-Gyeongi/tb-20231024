@@ -1,7 +1,7 @@
 package com.ll;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /*
 Rq 안에 내용 못 짜도 상관없다.
@@ -14,13 +14,10 @@ public class Rq {
     String action;
     String queryString;
 
-    // Map을 안배워서 일단 List에 차곡차곡 저장하자
-    List<String> paramNames;
-    List<String> paramValues;
+    Map<String, String> paramsMap;
 
     public Rq(String cmd) {
-        paramNames = new ArrayList<>();
-        paramValues = new ArrayList<>();
+        paramsMap = new HashMap<>();
 
         this.cmd = cmd;
 
@@ -38,8 +35,7 @@ public class Rq {
             String paramName = queryParamStrBits[0];
             String paramValue = queryParamStrBits[1];
 
-            paramNames.add(paramName);
-            paramValues.add(paramValue);
+            paramsMap.put(paramName, paramValue);
         }
     }
 
@@ -48,20 +44,16 @@ public class Rq {
     }
 
     public int getParamAsInt(String paramName, int defaultValue) {
-        // paramName가 없을 수도 있다. 없으면 -1을 반환한다.
-        int index = paramNames.indexOf(paramName);// indexOf()는 찾는거다.
+        String paramValue = paramsMap.get(paramName);
 
-        if (index == -1) return defaultValue;
-
-        // 원하는 paramName 찾으면
-        String paramValue = this.paramValues.get(index);
-
-        // 고객이 잘못 입력해 실패할 수도 있다.
-        // 위험한 일은 try-catch()문에 감싼다.
-        try {
-            return Integer.parseInt(paramValue);
-        } catch (NumberFormatException e) {
-            return defaultValue;
+        // 값이 있는 경우
+        if (paramValue != null) {
+            try {
+                return Integer.parseInt(paramValue);
+            } catch (NumberFormatException e) {
+            }
         }
+
+        return defaultValue;
     }
 }
